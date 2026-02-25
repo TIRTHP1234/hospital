@@ -1,0 +1,13 @@
+src/components/common/Layout/Header.tsx(2,30): error TS6133: 'UserIcon' is declared but its value is never read.
+src/components/dashboard/DepartmentChart/DepartmentBarChart.tsx(38,72): error TS2345: Argument of type 'string' is not assignable to parameter of type 'SetStateAction<number | null>'.
+src/components/dashboard/DepartmentChart/DepartmentBarChart.tsx(41,41): error TS6133: 'entry' is declared but its value is never read.
+src/components/dashboard/OverviewCards/MetricCard.tsx(4,10): error TS1484: 'LucideIcon' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/hooks/useActivity.ts(30,59): error TS2339: Property 'full_name' does not exist on type '{ full_name: any; }[]'.
+src/hooks/useActivity.ts(31,50): error TS2339: Property 'name' does not exist on type '{ name: any; }[]'.
+src/hooks/useActivity.ts(38,63): error TS2339: Property 'full_name' does not exist on type '{ full_name: any; }[]'.
+src/hooks/useActivity.ts(39,54): error TS2339: Property 'name' does not exist on type '{ name: any; }[]'.
+src/hooks/useActivity.ts(49,92): error TS2339: Property 'full_name' does not exist on type '{ full_name: any; }[]'.
+src/hooks/useActivity.ts(50,50): error TS2339: Property 'name' does not exist on type '{ name: any; }[]'.
+src/hooks/useAuth.ts(2,10): error TS1484: 'User' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/hooks/useAuth.ts(2,16): error TS1484: 'Session' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/hooks/useDepartmentAdmissions.ts(3,31): error TS6133: 'endOfDay' is declared but its value is never read.

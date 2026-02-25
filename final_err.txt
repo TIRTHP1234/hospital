@@ -1,0 +1,9 @@
+src/components/dashboard/AlertsWidget/AlertsWidget.tsx(25,18): error TS2339: Property 'erAvgWait' does not exist on type '{ bedOccupancy: number; totalBeds: number; currentAdmissions: number | null; erWaitTime: number; openComplaints: number | null; staffOnDuty: number | null; }'.
+src/components/dashboard/AlertsWidget/AlertsWidget.tsx(28,63): error TS2339: Property 'erAvgWait' does not exist on type '{ bedOccupancy: number; totalBeds: number; currentAdmissions: number | null; erWaitTime: number; openComplaints: number | null; staffOnDuty: number | null; }'.
+src/components/dashboard/OverviewCards/OverviewCards.tsx(37,29): error TS2339: Property 'erAvgWait' does not exist on type '{ bedOccupancy: number; totalBeds: number; currentAdmissions: number | null; erWaitTime: number; openComplaints: number | null; staffOnDuty: number | null; }'.
+src/components/dashboard/OverviewCards/OverviewCards.tsx(45,17): error TS2322: Type 'number | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/components/dashboard/OverviewCards/OverviewCards.tsx(52,17): error TS2322: Type 'number | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/hooks/useAuth.ts(1,10): error TS6133: 'useEffect' is declared but its value is never read.
+src/hooks/useAuth.ts(2,21): error TS6196: 'Session' is declared but never used.
