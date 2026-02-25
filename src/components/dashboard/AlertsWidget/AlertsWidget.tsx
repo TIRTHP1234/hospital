@@ -2,36 +2,60 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/common/Card'
 import { Bell, AlertTriangle } from 'lucide-react'
 import { useMetrics } from '@/hooks/useMetrics'
+import { useAuth } from '@/hooks/useAuth'
+import { supabase } from '@/lib/supabaseClient'
+import { useQuery } from '@tanstack/react-query'
 
 export const AlertsWidget: React.FC = () => {
     const { data } = useMetrics()
+    const { user } = useAuth()
     const [alerts, setAlerts] = useState<{ id: string, message: string, time: Date }[]>([])
+
+    // Fetch user preferences
+    const { data: preferences } = useQuery({
+        queryKey: ['user_preferences', user?.id],
+        queryFn: async () => {
+            if (!user) return null
+            const { data, error } = await supabase
+                .from('user_preferences')
+                .select('alert_thresholds')
+                .eq('user_id', user.id)
+                .single()
+
+            if (error && error.code !== 'PGRST116') throw error
+            return data
+        },
+        enabled: !!user
+    })
 
     // Simulated threshold monitor
     useEffect(() => {
         if (!data) return
 
+        const thresholds = preferences?.alert_thresholds || { icu_occupancy: 90, er_wait: 60 }
+        const currentIcuThreshold = thresholds.icu_occupancy || 90
+        const currentErWaitThreshold = thresholds.er_wait || 60
+
         const newAlerts = []
 
-        // Hardcoded thresholds (would normally come from user_preferences)
-        if (data.bedOccupancy > 90) {
+        if (data.bedOccupancy > currentIcuThreshold) {
             newAlerts.push({
                 id: 'occ',
-                message: `High bed occupancy: ${data.bedOccupancy.toFixed(1)}%`,
+                message: `High bed occupancy: ${data.bedOccupancy.toFixed(1)}% (Threshold: ${currentIcuThreshold}%)`,
                 time: new Date()
             })
         }
 
-        if (data.erWaitTime > 60) {
+        if (data.erWaitTime > currentErWaitThreshold) {
             newAlerts.push({
                 id: 'wait',
-                message: `ER Wait Time exceeds target: ${data.erWaitTime} min`,
+                message: `ER Wait Time exceeds target: ${data.erWaitTime} min (Target: ${currentErWaitThreshold} min)`,
                 time: new Date()
             })
         }
 
         setAlerts(newAlerts)
-    }, [data])
+    }, [data, preferences])
 
     return (
         <Card className="h-full" noPadding>

@@ -61,7 +61,7 @@ export const Login: React.FC = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border"
-                                    placeholder="admin@hospital.com"
+                                    placeholder="doctor_admin@hospital.com"
                                 />
                             </div>
                         </div>
@@ -102,7 +102,7 @@ export const Login: React.FC = () => {
 
                     <div className="mt-6 text-sm text-gray-500 text-center flex flex-col items-center">
                         <p>Demo Credentials:</p>
-                        <p className="font-mono bg-gray-100 px-2 py-1 rounded mt-1">admin@hospital.com / admin123</p>
+                        <p className="font-mono bg-gray-100 px-2 py-1 rounded mt-1">doctor_admin@hospital.com / adminpassword123</p>
                     </div>
                 </div>
             </div>
