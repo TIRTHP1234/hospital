@@ -32,7 +32,7 @@ export function useMetrics() {
             const { count: staffOnDuty } = await supabase
                 .from('staff')
                 .select('*', { count: 'exact', head: true })
-                .eq('status', 'active')
+                .eq('on_duty', true)
 
             return {
                 bedOccupancy,

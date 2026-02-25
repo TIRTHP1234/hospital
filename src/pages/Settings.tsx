@@ -48,6 +48,14 @@ export const Settings: React.FC = () => {
                 er_wait: erWait
             }
 
+            // Upsert the user into the public "users" table first to prevent foreign key errors. 
+            // In a production app, this would normally be handled by a Supabase Postgres Trigger on user sign up.
+            const { error: userError } = await supabase
+                .from('users')
+                .upsert({ id: user.id, email: user.email }, { onConflict: 'id' })
+
+            if (userError) throw userError
+
             // Upsert user preferences
             const { error } = await supabase
                 .from('user_preferences')
