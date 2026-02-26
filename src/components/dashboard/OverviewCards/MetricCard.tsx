@@ -26,8 +26,18 @@ export const MetricCard: React.FC<MetricCardProps> = ({
     colorClass,
     trend
 }) => {
+    // Tailwind needs explicit class names for JIT compiler to pick them up
+    // We cannot construct them dynamically with string replacement
+    const gradientMaps: Record<string, string> = {
+        'bg-blue-600': 'from-blue-500 to-blue-600',
+        'bg-yellow-500': 'from-yellow-400 to-yellow-500',
+        'bg-red-500': 'from-red-400 to-red-500',
+        'bg-green-500': 'from-green-400 to-green-500',
+    };
+    const gradientClasses = gradientMaps[colorClass] || colorClass;
+
     return (
-        <Card>
+        <Card className="group">
             <CardContent className="p-0">
                 <div className="flex items-center justify-between">
                     <div>
@@ -40,7 +50,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
                             </span>
                         </div>
                     </div>
-                    <div className={`p-3 rounded-xl ${colorClass}`}>
+                    <div className={`p-4 rounded-2xl bg-gradient-to-br ${gradientClasses} shadow-sm transform transition-transform group-hover:scale-110 flex items-center justify-center`}>
                         <Icon className="w-6 h-6 text-white" />
                     </div>
                 </div>

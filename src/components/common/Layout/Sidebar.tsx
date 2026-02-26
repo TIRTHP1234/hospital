@@ -46,14 +46,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                                 key={item.name}
                                 to={item.path}
                                 className={`
-                  flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors
+                  group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
                   ${isActive(item.path)
-                                        ? 'bg-blue-50 text-blue-700'
-                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
+                                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
+                                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
                 `}
                                 onClick={() => setIsOpen(false)}
                             >
-                                <Icon className={`w-5 h-5 mr-3 ${isActive(item.path) ? 'text-blue-700' : 'text-gray-400'}`} />
+                                <Icon className={`w-5 h-5 mr-3 transition-colors ${isActive(item.path) ? 'text-white' : 'text-gray-400 group-hover:text-blue-500'}`} />
                                 {item.name}
                             </Link>
                         )

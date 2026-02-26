@@ -1,5 +1,6 @@
 import React from 'react'
-import { Menu, Bell, LogOut } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Menu, Bell, LogOut, Users } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
@@ -16,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
     }
 
     return (
-        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-8 z-10 sticky top-0">
+        <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm h-16 flex items-center justify-between px-4 lg:px-8 z-10 sticky top-0 transition-all">
             <div className="flex items-center">
                 <button
                     onClick={toggleSidebar}
@@ -27,8 +28,18 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                 <h1 className="text-xl font-semibold text-gray-900 hidden sm:block">Hospital Operations</h1>
             </div>
 
-            <div className="flex items-center space-x-4">
-                <button className="p-2 text-gray-400 hover:text-gray-500 relative">
+            <div className="flex items-center space-x-5">
+                <Link
+                    to="/registration"
+                    className="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 rounded-md shadow-sm text-sm font-semibold transition-all hover:shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                    <Users className="w-4 h-4" />
+                    Registration Desk
+                </Link>
+
+                <div className="h-6 w-px bg-gray-200 hidden sm:block"></div>
+
+                <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
                     <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-400 ring-2 ring-white" />
                     <Bell className="h-6 w-6" />
                 </button>
@@ -37,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                     <div>
                         <HeadlessMenu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
-                            <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold">
+                            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shadow-inner flex items-center justify-center text-white font-bold text-sm">
                                 {user?.email?.charAt(0).toUpperCase() || 'A'}
                             </div>
                         </HeadlessMenu.Button>

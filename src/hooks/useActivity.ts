@@ -14,6 +14,13 @@ export function useActivity() {
                 .order('admitted_at', { ascending: false })
                 .limit(10)
 
+            const { data: discharges } = await supabase
+                .from('admissions')
+                .select('id, admitted_at, discharged_at, patients(full_name), departments(name)')
+                .not('discharged_at', 'is', null)
+                .order('discharged_at', { ascending: false })
+                .limit(10)
+
             const { data: complaints } = await supabase
                 .from('complaints')
                 .select('id, created_at, status, patients(full_name), departments(name)')
@@ -32,10 +39,16 @@ export function useActivity() {
                     description: `Patient ${patientName} admitted`,
                     department: deptName
                 })
-                if (adm.discharged_at) {
+            })
+
+            discharges?.forEach(dis => {
+                const patientName = (dis.patients as any)?.full_name || 'Unknown'
+                const deptName = (dis.departments as any)?.name || 'Unknown'
+                // Avoid duplicating discharge events if the admission was also very recent
+                if (!activities.find(a => a.id === `dis-${dis.id}`)) {
                     activities.push({
-                        id: `dis-${adm.id}`,
-                        timestamp: adm.discharged_at,
+                        id: `dis-${dis.id}`,
+                        timestamp: dis.discharged_at,
                         type: 'Discharge',
                         description: `Patient ${patientName} discharged`,
                         department: deptName
