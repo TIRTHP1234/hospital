@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRegistration } from '@/hooks/useRegistration';
 import { RegistrationForm } from '@/components/registration/RegistrationForm';
 import { PatientList } from '@/components/registration/PatientList';
 import { AlertsWidget } from '@/components/dashboard/AlertsWidget/AlertsWidget';
+import { AITriageModal } from '@/components/registration/AITriageModal';
+import { Sparkles } from 'lucide-react';
 
 export const RegistrationDesk: React.FC = () => {
     const {
@@ -14,6 +16,8 @@ export const RegistrationDesk: React.FC = () => {
         dischargePatient
     } = useRegistration();
 
+    const [isTriageModalOpen, setIsTriageModalOpen] = useState(false);
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center bg-white p-6 rounded-lg shadow-sm border border-gray-200">
@@ -21,6 +25,13 @@ export const RegistrationDesk: React.FC = () => {
                     <h1 className="text-2xl font-bold text-gray-900">Registration Desk</h1>
                     <p className="text-gray-500 mt-1">Manage patient admissions and discharges</p>
                 </div>
+                <button
+                    onClick={() => setIsTriageModalOpen(true)}
+                    className="flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg font-semibold shadow-rose-200 shadow-lg transition-transform active:scale-95"
+                >
+                    <Sparkles className="w-5 h-5 animate-pulse" />
+                    AI Bed Finder
+                </button>
             </div>
 
             {error && (
@@ -64,6 +75,13 @@ export const RegistrationDesk: React.FC = () => {
                     />
                 </div>
             </div>
+
+            <AITriageModal
+                isOpen={isTriageModalOpen}
+                onClose={() => setIsTriageModalOpen(false)}
+                activeAdmissions={admissions}
+                onDischarge={dischargePatient}
+            />
         </div>
     );
 };
