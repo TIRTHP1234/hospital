@@ -9,6 +9,8 @@
 ![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=for-the-badge&logo=supabase)
 ![Twilio](https://img.shields.io/badge/Twilio-SMS_Alerts-F22F46?style=for-the-badge&logo=twilio)
 
+### 🔴 [Live Demo Available Here](https://hospital-dashboard-u30f.onrender.com)
+
 ---
 
 ## 📖 Overview
