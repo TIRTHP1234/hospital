@@ -17,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
     }
 
     return (
-        <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm h-16 flex items-center justify-between px-4 lg:px-8 z-10 sticky top-0 transition-all">
+        <header className="bg-white/60 backdrop-blur-xl border-b border-white/40 shadow-sm h-16 flex items-center justify-between px-4 lg:px-8 z-10 sticky top-0 transition-all">
             <div className="flex items-center">
                 <button
                     onClick={toggleSidebar}
@@ -39,10 +39,59 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
 
                 <div className="h-6 w-px bg-gray-200 hidden sm:block"></div>
 
-                <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
-                    <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-400 ring-2 ring-white" />
-                    <Bell className="h-6 w-6" />
-                </button>
+                <HeadlessMenu as="div" className="relative">
+                    <HeadlessMenu.Button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-white/50 rounded-full transition-colors relative focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white animate-pulse" />
+                        <Bell className="h-6 w-6 text-gray-700" />
+                    </HeadlessMenu.Button>
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                        <HeadlessMenu.Items className="absolute right-0 z-50 mt-2 w-80 origin-top-right rounded-2xl bg-white/90 backdrop-blur-xl py-2 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none border border-white/50">
+                            <div className="px-4 py-3 border-b border-gray-100 flex justify-between items-center">
+                                <span className="text-sm font-bold text-gray-900">Notifications</span>
+                                <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded-full">2 New</span>
+                            </div>
+                            <div className="max-h-96 overflow-y-auto">
+                                <HeadlessMenu.Item>
+                                    {({ active }) => (
+                                        <button className={`${active ? 'bg-white/60' : ''} w-full text-left px-4 py-3 border-b border-gray-50 flex gap-3 transition-colors`}>
+                                            <div className="w-2 h-2 mt-1.5 rounded-full bg-red-500 shrink-0" />
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-900">High Bed Occupancy</p>
+                                                <p className="text-xs text-gray-500 mt-0.5">ICU is currently at 92% capacity.</p>
+                                                <p className="text-xs text-blue-500 mt-1">2 mins ago</p>
+                                            </div>
+                                        </button>
+                                    )}
+                                </HeadlessMenu.Item>
+                                <HeadlessMenu.Item>
+                                    {({ active }) => (
+                                        <button className={`${active ? 'bg-white/60' : ''} w-full text-left px-4 py-3 flex gap-3 transition-colors`}>
+                                            <div className="w-2 h-2 mt-1.5 rounded-full bg-yellow-500 shrink-0" />
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-900">ER Wait Time Alert</p>
+                                                <p className="text-xs text-gray-500 mt-0.5">Average wait time exceeds 45 mins.</p>
+                                                <p className="text-xs text-blue-500 mt-1">15 mins ago</p>
+                                            </div>
+                                        </button>
+                                    )}
+                                </HeadlessMenu.Item>
+                            </div>
+                            <div className="px-4 py-2 border-t border-gray-100">
+                                <Link to="/" className="text-xs font-medium text-blue-600 hover:text-blue-700 block text-center">
+                                    View on Dashboard
+                                </Link>
+                            </div>
+                        </HeadlessMenu.Items>
+                    </Transition>
+                </HeadlessMenu>
 
                 <HeadlessMenu as="div" className="relative ml-3">
                     <div>

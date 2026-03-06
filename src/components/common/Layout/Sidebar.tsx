@@ -29,13 +29,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
 
             {/* Sidebar */}
             <aside className={`
-        fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-30 w-64 bg-white/70 backdrop-blur-xl border-r border-white/40 transform transition-transform duration-300 ease-in-out shadow-xl
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:inset-0
       `}>
-                <div className="flex items-center justify-center h-16 border-b border-gray-200 px-4">
+                <div className="flex items-center justify-center h-16 border-b border-white/40 px-4">
                     <Activity className="w-8 h-8 text-blue-600 mr-2" />
-                    <span className="text-xl font-bold text-gray-900 tracking-tight">MediDash</span>
+                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 tracking-tight">MediDash</span>
                 </div>
 
                 <nav className="p-4 space-y-1">
@@ -46,10 +46,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                                 key={item.name}
                                 to={item.path}
                                 className={`
-                  group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
+                  group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300
                   ${isActive(item.path)
-                                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
-                                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
+                                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 translate-x-1'
+                                        : 'text-gray-600 hover:bg-white/50 hover:text-gray-900 hover:translate-x-1'}
                 `}
                                 onClick={() => setIsOpen(false)}
                             >
