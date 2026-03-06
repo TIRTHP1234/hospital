@@ -62,7 +62,8 @@ app.post('/api/alert', async (req, res) => {
 // Serve the frontend build
 app.use(express.static(join(__dirname, '../dist')));
 
-app.get('*', (req, res) => {
+// Fallback for React Router SPA
+app.use((req, res) => {
     res.sendFile(join(__dirname, '../dist/index.html'));
 });
 
