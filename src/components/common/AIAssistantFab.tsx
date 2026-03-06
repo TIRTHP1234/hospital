@@ -2,23 +2,64 @@ import React, { useState } from 'react'
 import { Sparkles, Loader2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
+import { useMetrics } from '@/hooks/useMetrics'
+import { useDepartmentAdmissions } from '@/hooks/useDepartmentAdmissions'
+import { useResolutionTrends } from '@/hooks/useResolutionTrends'
+
 export const AIAssistantFab: React.FC = () => {
     const [isAnalyzing, setIsAnalyzing] = useState(false)
+
+    // Fetch real data to construct dynamic insights
+    const { data: metrics } = useMetrics()
+    const { data: deptAdmissions } = useDepartmentAdmissions()
+    const { data: trends } = useResolutionTrends()
 
     const handleInsightsClick = () => {
         setIsAnalyzing(true)
 
-        // Array of dynamic insights for the hackathon
-        const insights = [
-            "Patient flow expected to peak at 2 PM. Consider reallocating 2 nurses to triage from the surgery ward.",
-            "ER wait times are trending 15% above normal. Recommend opening an overflow consultation room.",
-            "ICU bed occupancy is at 88%. Recommend reviewing discharge candidates for the next 4 hours.",
-            "Staffing levels in Pediatrics are optimal, but Orthopedics may need backup based on incoming trauma alerts.",
-            "Supply alert: Inventory for IV fluids is depleting faster than projected today. Recommend restocking.",
-            "Cardiology department resolution time has improved by 12% today. Current workflows are highly efficient."
-        ];
+        const dynamicInsights: string[] = []
 
-        const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+        if (metrics) {
+            if (metrics.bedOccupancy > 85) {
+                dynamicInsights.push(`Critical: Overall bed occupancy is extremely high at ${metrics.bedOccupancy.toFixed(1)}%. Consider reviewing early discharge candidates.`)
+            } else if (metrics.bedOccupancy < 50) {
+                dynamicInsights.push(`Bed occupancy is low (${metrics.bedOccupancy.toFixed(1)}%). Capacity is currently optimal for incoming transfers.`)
+            } else {
+                dynamicInsights.push(`Bed occupancy is manageable at ${metrics.bedOccupancy.toFixed(1)}%. Normal operations can continue.`)
+            }
+
+            if (metrics.erWaitTime > 45) {
+                dynamicInsights.push(`Alert: ER wait times are elevated at ${metrics.erWaitTime} mins. Recommend prioritizing triage and opening an overflow room.`)
+            } else {
+                dynamicInsights.push(`ER wait times are stable at ${metrics.erWaitTime} mins.`)
+            }
+
+            if (metrics.openComplaints !== null && metrics.openComplaints > 10) {
+                dynamicInsights.push(`Attention: There are ${metrics.openComplaints} open complaints. Staff should prioritize addressing patient concerns.`)
+            }
+        }
+
+        if (deptAdmissions && deptAdmissions.length > 0) {
+            const busiest = deptAdmissions[0]
+            dynamicInsights.push(`${busiest.name} is currently the busiest department with ${busiest.admissions} recent admissions. Consider reallocating staff there if possible.`)
+        }
+
+        if (trends && trends.length >= 2) {
+            const latest = trends[trends.length - 1]
+            const previous = trends[trends.length - 2]
+            if (latest.avgHours < previous.avgHours) {
+                dynamicInsights.push(`Good news: Complaint resolution time improved to ${latest.avgHours} hours today compared to yesterday.`)
+            } else if (latest.avgHours > previous.avgHours) {
+                dynamicInsights.push(`Notice: Complaint resolution time increased to ${latest.avgHours} hours today. Please review resolution workflows.`)
+            }
+        }
+
+        // Fallback if data is still loading or empty
+        if (dynamicInsights.length === 0) {
+            dynamicInsights.push("Analyzing real-time data... Data is currently within normal operating parameters.")
+        }
+
+        const randomInsight = dynamicInsights[Math.floor(Math.random() * dynamicInsights.length)];
 
         // Simulate AI thinking
         toast.custom((t) => (

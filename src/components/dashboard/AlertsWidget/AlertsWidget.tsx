@@ -6,10 +6,16 @@ import { useAuth } from '@/hooks/useAuth'
 import { supabase } from '@/lib/supabaseClient'
 import { useQuery } from '@tanstack/react-query'
 
+import { useRef } from 'react'
+import toast from 'react-hot-toast'
+
 export const AlertsWidget: React.FC = () => {
     const { data } = useMetrics()
     const { user } = useAuth()
     const [alerts, setAlerts] = useState<{ id: string, message: string, time: Date }[]>([])
+
+    // Track sent alerts to avoid spamming the backend during rerenders
+    const sentAlertsRefs = useRef<Set<string>>(new Set())
 
     // Fetch user preferences
     const { data: preferences } = useQuery({
@@ -28,6 +34,27 @@ export const AlertsWidget: React.FC = () => {
         enabled: !!user
     })
 
+    const sendSmsAlert = async (message: string, alertId: string) => {
+        if (sentAlertsRefs.current.has(alertId)) return;
+
+        try {
+            sentAlertsRefs.current.add(alertId);
+
+            const response = await fetch('http://localhost:3001/api/alert', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                toast.success('SMS Alert sent to duty manager');
+            }
+        } catch (error) {
+            console.error('Failed to send SMS alert', error);
+        }
+    }
+
     // Simulated threshold monitor
     useEffect(() => {
         if (!data) return
@@ -39,19 +66,23 @@ export const AlertsWidget: React.FC = () => {
         const newAlerts = []
 
         if (data.bedOccupancy > currentIcuThreshold) {
+            const msg = `High bed occupancy: ${data.bedOccupancy.toFixed(1)}% (Threshold: ${currentIcuThreshold}%)`;
             newAlerts.push({
                 id: 'occ',
-                message: `High bed occupancy: ${data.bedOccupancy.toFixed(1)}% (Threshold: ${currentIcuThreshold}%)`,
+                message: msg,
                 time: new Date()
-            })
+            });
+            sendSmsAlert(msg, 'occ-' + new Date().toDateString());
         }
 
         if (data.erWaitTime > currentErWaitThreshold) {
+            const msg = `ER Wait Time exceeds target: ${data.erWaitTime} min (Target: ${currentErWaitThreshold} min)`;
             newAlerts.push({
                 id: 'wait',
-                message: `ER Wait Time exceeds target: ${data.erWaitTime} min (Target: ${currentErWaitThreshold} min)`,
+                message: msg,
                 time: new Date()
-            })
+            });
+            sendSmsAlert(msg, 'wait-' + new Date().toDateString());
         }
 
         setAlerts(newAlerts)

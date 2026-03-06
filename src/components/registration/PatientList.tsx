@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import type { Admission } from '@/hooks/useRegistration';
-import { Clock, CheckCircle, UserMinus, Search, Filter } from 'lucide-react';
+import { Clock, CheckCircle, UserMinus, Search, Filter, Download } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { toast } from 'react-hot-toast';
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 interface PatientListProps {
     admissions: Admission[];
@@ -48,6 +50,32 @@ export const PatientList: React.FC<PatientListProps> = ({ admissions, onDischarg
         }
     };
 
+    const handleExportExcel = () => {
+        const rows = displayedAdmissions.map((a) => ({
+            'Patient Name': a.patient.full_name,
+            'Date of Birth': format(new Date(a.patient.date_of_birth), 'yyyy-MM-dd'),
+            'Department': a.department.name,
+            'Bed Number': a.bed_number ?? 'N/A',
+            'Admitted At': format(new Date(a.admitted_at), 'yyyy-MM-dd HH:mm'),
+            'Discharged At': a.discharged_at ? format(new Date(a.discharged_at), 'yyyy-MM-dd HH:mm') : '',
+            'Status': a.discharged_at ? 'Discharged' : 'In Hospital',
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(rows);
+        const colWidths = Object.keys(rows[0] ?? {}).map((key) => ({
+            wch: Math.max(key.length, ...rows.map((r) => String((r as any)[key]).length)) + 2,
+        }));
+        worksheet['!cols'] = colWidths;
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Patient Records');
+
+        const fileName = `patient-records-${format(new Date(), 'yyyy-MM-dd_HH-mm')}.xlsx`;
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        saveAs(blob, fileName);
+    };
+
     return (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden h-[600px] flex flex-col">
             <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center bg-gray-50 gap-4">
@@ -88,11 +116,20 @@ export const PatientList: React.FC<PatientListProps> = ({ admissions, onDischarg
                         </select>
                     </div>
 
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-2">
                         <span className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium bg-green-100 text-green-800 border border-green-200 shadow-sm whitespace-nowrap">
                             <span className="w-2 h-2 mr-2 bg-green-500 rounded-full animate-pulse"></span>
                             {activeCount} Active
                         </span>
+                        <button
+                            onClick={handleExportExcel}
+                            disabled={displayedAdmissions.length === 0}
+                            title="Export to Excel"
+                            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium bg-emerald-600 text-white border border-emerald-700 shadow-sm hover:bg-emerald-700 active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+                        >
+                            <Download className="w-4 h-4" />
+                            Export Excel
+                        </button>
                     </div>
                 </div>
             </div>
