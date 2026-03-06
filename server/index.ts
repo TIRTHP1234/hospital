@@ -21,7 +21,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = accountSid && authToken ? twilio(accountSid, authToken) : null;
 
 // Keep track of sent alerts to prevent spam (in memory for demo purposes)
-const recentAlerts = new Map < string, number> ();
+const recentAlerts = new Map<string, number>();
 
 app.post('/api/alert', async (req, res) => {
     const { message } = req.body;
@@ -59,7 +59,14 @@ app.post('/api/alert', async (req, res) => {
     }
 });
 
-const PORT = process.env.ALERT_SERVER_PORT || 3001;
+// Serve the frontend build
+app.use(express.static(join(__dirname, '../dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, '../dist/index.html'));
+});
+
+const PORT = process.env.PORT || process.env.ALERT_SERVER_PORT || 3001;
 app.listen(PORT, () => {
-    console.log(`Alert server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
