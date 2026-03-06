@@ -40,7 +40,10 @@ export const AlertsWidget: React.FC = () => {
         try {
             sentAlertsRefs.current.add(alertId);
 
-            const response = await fetch('/api/alert', {
+            // In production (Render), use the absolute URL. Locally, rely on the Vite proxy.
+            const apiUrl = import.meta.env.PROD ? 'https://hospital-dashboard-u30f.onrender.com/api/alert' : '/api/alert';
+
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message })

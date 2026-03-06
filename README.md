@@ -112,8 +112,8 @@ hospital/
 
 ---
 
-## 🎨 System Architecture & Database Schema
-The Supabase PostgreSQL database revolves around **5 core tables**:
+ 🎨 System Architecture & Database Schema
+The Supabase PostgreSQL database revolves around 5 core tables:
 - `users` (Auth)
 - `departments` (ER, ICU, Cardiology, etc.)
 - `patients` (Demographics)
@@ -124,7 +124,7 @@ The Supabase PostgreSQL database revolves around **5 core tables**:
 
 ---
 
-## 🔮 Future Roadmap (Post-Hackathon)
-- **Machine Learning Forecasts:** Replace the mock arrival predictions with a deployed Python FastAPI microservice utilizing `Prophet` to generate actual rolling 6-hour admission forecasts based on historical weather and event data.
-- **Geospatial Heatmaps:** Map patient orgin zip-codes natively on the dashboard to track where emergency influxes are originating from.
-- **Shift Scheduling Integration:** Connect the `staff` table metrics directly into a scheduling CMS for dynamic shift reassignment.
+🔮 Future Roadmap (Post-Hackathon)
+Machine Learning Forecasts: Replace the mock arrival predictions with a deployed Python FastAPI microservice utilizing `Prophet` to generate actual rolling 6-hour admission forecasts based on historical weather and event data.
+Geospatial Heatmaps: Map patient orgin zip-codes natively on the dashboard to track where emergency influxes are originating from.
+Shift Scheduling Integration: Connect the `staff` table metrics directly into a scheduling CMS for dynamic shift reassignment.
