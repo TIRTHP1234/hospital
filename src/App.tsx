@@ -6,6 +6,7 @@ import { Login } from '@/pages/Login'
 import { Dashboard } from '@/pages/Dashboard'
 import { RegistrationDesk } from '@/pages/RegistrationDesk'
 import { Settings } from '@/pages/Settings'
+import { LeadPage } from '@/pages/LeadPage'
 
 // A small wrapper to use Layout with Outlet
 const LayoutWrapper = () => (
@@ -19,11 +20,12 @@ function App() {
     <>
       <Toaster position="top-right" />
       <Routes>
+        <Route path="/" element={<LeadPage />} />
         <Route path="/login" element={<Login />} />
 
         <Route element={<ProtectedRoute />}>
           <Route element={<LayoutWrapper />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/registration" element={<RegistrationDesk />} />
             <Route path="/settings" element={<Settings />} />
           </Route>

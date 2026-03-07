@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                                 </HeadlessMenu.Item>
                             </div>
                             <div className="px-4 py-2 border-t border-gray-100">
-                                <Link to="/" className="text-xs font-medium text-blue-600 hover:text-blue-700 block text-center">
+                                <Link to="/dashboard" className="text-xs font-medium text-blue-600 hover:text-blue-700 block text-center">
                                     View on Dashboard
                                 </Link>
                             </div>

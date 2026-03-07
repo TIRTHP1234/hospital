@@ -4,15 +4,13 @@ import { Activity, Lock, Mail } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 
 export const Login: React.FC = () => {
-    const { user, supabase } = useAuth()
+    const { supabase } = useAuth()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    if (user) {
-        return <Navigate to="/" replace />
-    }
+    return <Navigate to="/dashboard" replace />
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()

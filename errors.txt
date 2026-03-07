@@ -1,0 +1,68 @@
+﻿[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 1895 modules transformed.
+node.exe : 
+[31mΓ£ù[39m Build 
+failed in 2.30s
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([31mΓ£ù[39m   
+  Build failed in 2    
+.30s:String) [], R    
+emoteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+[31merror during 
+build:
+[31mCould not resolve 
+"../lib/supabase" from 
+"src/services/queryServ
+ice.js"[31m
+file: 
+[36mD:/Projects/mian 
+project of 24 
+Hackathon VIT chennai/h
+ospital/src/services/qu
+eryService.js[31m
+    at getRollupError (
+file:///D:/Projects/mia
+n%20project%20of%2024%2
+0Hackathon%20VIT%20chen
+nai/hospital/node_modul
+es/rollup/dist/es/share
+d/parseAst.js:402:41)
+    at error (file:///D
+:/Projects/mian%20proje
+ct%20of%2024%20Hackatho
+n%20VIT%20chennai/hospi
+tal/node_modules/rollup
+/dist/es/shared/parseAs
+t.js:398:42)
+    at ModuleLoader.han
+dleInvalidResolvedId (f
+ile:///D:/Projects/mian
+%20project%20of%2024%20
+Hackathon%20VIT%20chenn
+ai/hospital/node_module
+s/rollup/dist/es/shared
+/node-entry.js:21710:24
+)
+    at file:///D:/Proje
+cts/mian%20project%20of
+%2024%20Hackathon%20VIT
+%20chennai/hospital/nod
+e_modules/rollup/dist/e
+s/shared/node-entry.js:
+21670:26[39m
